@@ -1,8 +1,17 @@
-export default function About() {
+import { getTranslations } from 'next-intl/server';
+
+export default async function AboutPage() {
+    const t = await getTranslations('Navigation');
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center p-24">
-            <h1 className="text-4xl font-bold mb-4">About Us</h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300">Learn more about our company and mission.</p>
-        </main>
+        <div className="max-w-3xl">
+            <h1 className="text-3xl font-bold mb-6">{t('about')}</h1>
+            <p className="text-lg leading-relaxed text-gray-700 mb-4">
+                We are a leading company dedicated to providing top-notch solutions.
+                Our history extends back several years of excellence and innovation.
+            </p>
+            <p className="text-lg leading-relaxed text-gray-700">
+                Our team is composed of industry experts committed to delivering quality.
+            </p>
+        </div>
     );
 }

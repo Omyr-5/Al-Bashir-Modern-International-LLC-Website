@@ -1,29 +1,36 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getLocale } from 'next-intl/server';
 import { Providers } from '@/components/providers';
 import Navbar from '@/components/Navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'Portfolio',
-    description: 'Professional Portfolio',
+  title: 'Portfolio',
+  description: 'Professional Portfolio',
 };
 
-export default function RootLayout({
-    children,
+export default async function RootLayout({
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <html lang="en">
-            <body className={inter.className}>
-                <Providers>
-                    <Navbar />
-                    {children}
-                </Providers>
-            </body>
-        </html>
-    );
+  const locale = await getLocale();
+  const messages = await getMessages();
+
+  return (
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <body className={inter.className}>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <Providers>
+            <Navbar />
+            {children}
+          </Providers>
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
 }
