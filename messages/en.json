@@ -1,0 +1,20 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "projects": "Projects",
+    "jobs": "Jobs",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "Home": {
+    "title": "Welcome to our Portfolio",
+    "subtitle": "Building the future together"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry"
+  }
+}
