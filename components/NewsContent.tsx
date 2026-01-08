@@ -71,17 +71,17 @@ export default function NewsContent() {
     ];
 
     return (
-        <div ref={root} className="min-h-screen bg-[#F0F0F0] pt-20">
+        <div ref={root} className="min-h-screen pt-20">
             {/* 1. HERO SECTION */}
-            <section className="news-hero relative py-32 bg-brand-green text-white overflow-hidden border-b-8 border-ind-yellow">
+            <section className="news-hero relative py-32 bg-brand-dark text-white overflow-hidden border-b-8 border-accent-yellow">
                 <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#003900] via-transparent to-[#003900]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-brand-dark via-transparent to-brand-dark" />
                 </div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <span className="inline-block px-3 py-1 bg-accent-warning text-white text-[10px] font-black uppercase mb-6 tracking-widest">Journal</span>
+                    <span className="inline-block px-3 py-1 bg-error text-white text-[10px] font-black uppercase mb-6 tracking-widest">Journal</span>
                     <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-8 tracking-tighter uppercase italic">
-                        Field <span className="text-ind-yellow">Reports</span>
+                        Field <span className="text-accent-yellow">Reports</span>
                     </h1>
                     <p className="max-w-2xl mx-auto text-xl font-bold text-white/70 uppercase">Latest updates from our global project sites and technical breakthroughs.</p>
                 </div>
@@ -92,26 +92,26 @@ export default function NewsContent() {
                 <div className="container mx-auto">
                     <div className="grid lg:grid-cols-3 gap-12">
                         {articles.map((article) => (
-                            <article key={article.id} className="news-card group bg-white border-t-8 border-ind-yellow hover:bg-brand-green transition-all duration-500 shadow-xl overflow-hidden">
+                            <article key={article.id} className="news-card group bg-white border-t-8 border-accent-yellow hover:bg-brand-dark transition-all duration-500 shadow-xl overflow-hidden">
                                 <div className="relative h-64 grayscale group-hover:grayscale-0 transition-all duration-1000">
                                     <img
                                         src={article.image}
                                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                     />
-                                    <div className="absolute top-6 left-6 bg-brand-green text-ind-yellow px-4 py-2 font-black text-[10px] uppercase italic">
+                                    <div className="absolute top-6 left-6 bg-brand-dark text-accent-yellow px-4 py-2 font-black text-[10px] uppercase italic">
                                         {article.category}
                                     </div>
                                 </div>
                                 <div className="p-10 space-y-6">
-                                    <div className="flex items-center gap-2 text-[10px] font-black text-brand-green group-hover:text-ind-yellow uppercase tracking-widest">
+                                    <div className="flex items-center gap-2 text-[10px] font-black text-brand-dark group-hover:text-accent-yellow uppercase tracking-widest">
                                         <Calendar className="w-4 h-4" /> {article.date}
                                     </div>
-                                    <h2 className="text-2xl font-black text-brand-green group-hover:text-white uppercase leading-none italic">{article.title}</h2>
+                                    <h2 className="text-2xl font-black text-brand-dark group-hover:text-white uppercase leading-none italic">{article.title}</h2>
                                     <p className="text-sm font-bold text-slate-500 group-hover:text-white/70 uppercase tracking-tight leading-relaxed line-clamp-3">
                                         {article.summary}
                                     </p>
                                     <div className="pt-6 border-t border-slate-100 flex justify-between items-center group-hover:border-white/10">
-                                        <button className="flex items-center gap-2 text-brand-green group-hover:text-ind-yellow font-black text-[10px] uppercase tracking-widest">
+                                        <button className="flex items-center gap-2 text-brand-dark group-hover:text-accent-yellow font-black text-[10px] uppercase tracking-widest">
                                             READ FULL LOG <CustomArrow className="w-4 h-4" />
                                         </button>
                                         <Share2 className="w-4 h-4 text-slate-300 group-hover:text-white/30" />
@@ -124,18 +124,18 @@ export default function NewsContent() {
             </section>
 
             {/* 3. SUBSCRIPTION */}
-            <section className="py-20 bg-brand-green border-y-8 border-ind-yellow">
+            <section className="py-20 bg-brand-dark border-y-8 border-accent-yellow">
                 <div className="container mx-auto px-6">
                     <div className="bg-white p-12 md:p-20 flex flex-col lg:flex-row items-center justify-between gap-12">
                         <div className="max-w-xl text-center lg:text-left">
-                            <h2 className="text-4xl md:text-5xl font-black text-brand-green uppercase italic tracking-tighter leading-none mb-4">
-                                Join the <br /> <span className="text-ind-yellow bg-brand-green px-4 inline-block transform -skew-x-6">Industrial Loop</span>
+                            <h2 className="text-4xl md:text-5xl font-black text-brand-dark uppercase italic tracking-tighter leading-none mb-4">
+                                Join the <br /> <span className="text-accent-yellow bg-brand-dark px-4 inline-block transform -skew-x-6">Industrial Loop</span>
                             </h2>
                             <p className="text-sm font-black text-slate-400 uppercase tracking-widest">Monthly summaries from the field.</p>
                         </div>
-                        <div className="flex w-full lg:w-auto p-2 bg-bg-light border-2 border-slate-200">
-                            <input type="email" placeholder="Email@company.com" className="bg-transparent px-6 py-4 outline-none border-none text-brand-green font-black uppercase text-xs w-full lg:w-72" />
-                            <button className="bg-ind-yellow text-brand-green px-10 py-4 font-black uppercase text-[10px] tracking-widest hover:bg-brand-green hover:text-white transition-all">SIGN UP</button>
+                        <div className="flex w-full lg:w-auto p-2 bg-surface-light border-2 border-slate-200">
+                            <input type="email" placeholder="Email@company.com" className="bg-transparent px-6 py-4 outline-none border-none text-brand-dark font-black uppercase text-xs w-full lg:w-72" />
+                            <button className="bg-accent-yellow text-brand-dark px-10 py-4 font-black uppercase text-[10px] tracking-widest hover:bg-brand-dark hover:text-white transition-all">SIGN UP</button>
                         </div>
                     </div>
                 </div>

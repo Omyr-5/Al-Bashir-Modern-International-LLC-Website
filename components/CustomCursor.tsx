@@ -94,11 +94,11 @@ export default function CustomCursor() {
         <>
             <div
                 ref={cursorRef}
-                className="fixed top-0 left-0 w-2 h-2 bg-ind-yellow rounded-full pointer-events-none z-[9999] hidden md:block mix-blend-difference"
+                className="fixed top-0 left-0 w-2 h-2 bg-accent-yellow rounded-full pointer-events-none z-[9999] hidden md:block mix-blend-difference"
             />
             <div
                 ref={followerRef}
-                className="fixed top-0 left-0 w-10 h-10 border-2 border-ind-yellow rounded-full pointer-events-none z-[9998] hidden md:block mix-blend-difference transition-colors duration-300"
+                className="fixed top-0 left-0 w-10 h-10 border-2 border-accent-yellow rounded-full pointer-events-none z-[9998] hidden md:block mix-blend-difference transition-colors duration-300"
             />
         </>
     );

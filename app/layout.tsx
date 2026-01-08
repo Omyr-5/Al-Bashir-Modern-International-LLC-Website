@@ -11,8 +11,8 @@ import Footer from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Portfolio',
-  description: 'Professional Portfolio',
+  title: 'Al Bashir Modern International LLC',
+  description: 'Premier industrial solutions for infrastructure, mining, and civil engineering.',
 };
 
 export default async function RootLayout({

@@ -88,17 +88,17 @@ export default function ServicesContent() {
     ];
 
     return (
-        <div ref={root} className="min-h-screen bg-[#F0F0F0] text-text-dark pt-20">
+        <div ref={root} className="min-h-screen text-secondary-charcoal pt-20">
             {/* 1. HERO SECTION */}
-            <section className="srv-hero relative py-32 bg-brand-green text-white overflow-hidden border-b-[12px] border-ind-yellow">
+            <section className="srv-hero relative py-32 bg-brand-dark text-white overflow-hidden border-b-[12px] border-accent-yellow">
                 <div className="absolute inset-0 opacity-10">
                     <Image src="/images/services-bg.png" alt="Srv" fill className="object-cover grayscale" />
                 </div>
                 <div className="container mx-auto px-6 relative z-10">
-                    <div className="border-l-[12px] border-ind-yellow pl-10 capitalize">
-                        <span className="inline-block py-1 px-4 bg-accent-warning text-white text-[10px] font-black uppercase tracking-[0.2em] mb-8">Capabilities</span>
+                    <div className="border-l-[12px] border-accent-yellow pl-10 capitalize">
+                        <span className="inline-block py-1 px-4 bg-error text-white text-[10px] font-black uppercase tracking-[0.2em] mb-8">Capabilities</span>
                         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-8 leading-[0.8] tracking-tighter uppercase italic">
-                            Built for <br /> <span className="text-ind-yellow">Execution</span>
+                            Built for <br /> <span className="text-accent-yellow">Execution</span>
                         </h1>
                         <p className="max-w-2xl text-xl font-bold text-white/70 uppercase">
                             Delivering the heavy-duty power and technical precision your industrial project demands.
@@ -110,18 +110,18 @@ export default function ServicesContent() {
             {/* 2. SERVICES GRID */}
             <section className="srv-grid py-8 px-6 relative z-10">
                 <div className="container mx-auto">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1 bg-brand-green border-2 border-brand-green">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1 bg-brand-dark border-2 border-brand-dark">
                         {services.map((s, i) => (
-                            <div key={i} className="srv-card p-12 bg-white hover:bg-brand-green group transition-all duration-500 relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-12 h-12 bg-ind-yellow transform translate-x-6 -translate-y-6 rotate-45 group-hover:bg-accent-warning transition-colors" />
-                                <div className="w-16 h-16 bg-ind-yellow flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                                    <s.icon className="w-8 h-8 text-brand-green" />
+                            <div key={i} className="srv-card p-12 bg-white hover:bg-brand-dark group transition-all duration-500 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-12 h-12 bg-accent-yellow transform translate-x-6 -translate-y-6 rotate-45 group-hover:bg-error transition-colors" />
+                                <div className="w-16 h-16 bg-accent-yellow flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+                                    <s.icon className="w-8 h-8 text-brand-dark" />
                                 </div>
-                                <h3 className="text-2xl font-black uppercase mb-6 text-brand-green group-hover:text-white leading-none">{s.title}</h3>
+                                <h3 className="text-2xl font-black uppercase mb-6 text-brand-dark group-hover:text-white leading-none">{s.title}</h3>
                                 <p className="text-sm font-bold text-slate-500 group-hover:text-white/70 uppercase tracking-tight mb-8 leading-relaxed">
                                     {s.desc}
                                 </p>
-                                <button className="text-brand-green group-hover:text-ind-yellow font-black text-[10px] tracking-widest uppercase flex items-center gap-2">
+                                <button className="text-brand-dark group-hover:text-accent-yellow font-black text-[10px] tracking-widest uppercase flex items-center gap-2">
                                     View Specs <CustomArrow className="w-3 h-3" />
                                 </button>
                             </div>
@@ -131,18 +131,18 @@ export default function ServicesContent() {
             </section>
 
             {/* 3. PROCESS SECTION */}
-            <section className="process-section py-32 bg-light-green border-y-4 border-slate-200">
+            <section className="process-section py-32 bg-primary-sand/20 border-y-4 border-slate-200">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col mb-24 items-center text-center">
-                        <h2 className="text-5xl md:text-7xl font-black text-brand-green uppercase tracking-tighter mb-4 italic">Operational <span className="text-brand-green-alt">Core</span></h2>
-                        <div className="w-32 h-3 bg-brand-green" />
+                        <h2 className="text-5xl md:text-7xl font-black text-brand-dark uppercase tracking-tighter mb-4 italic">Operational <span className="text-brand-dark">Core</span></h2>
+                        <div className="w-32 h-3 bg-brand-dark" />
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {process.map((p, i) => (
-                            <div key={i} className="process-box p-10 bg-white border-t-8 border-ind-yellow flex flex-col h-full shadow-lg">
-                                <div className="text-5xl font-black text-text-dark/5 mb-8">{p.step}</div>
-                                <h3 className="text-xl font-bold uppercase mb-4 text-brand-green border-b-2 border-slate-100 pb-4">{p.title}</h3>
+                            <div key={i} className="process-box p-10 bg-white border-t-8 border-accent-yellow flex flex-col h-full shadow-lg">
+                                <div className="text-5xl font-black text-secondary-charcoal/5 mb-8">{p.step}</div>
+                                <h3 className="text-xl font-bold uppercase mb-4 text-brand-dark border-b-2 border-slate-100 pb-4">{p.title}</h3>
                                 <p className="text-sm font-bold text-slate-500 uppercase tracking-tight leading-relaxed">{p.desc}</p>
                             </div>
                         ))}
@@ -151,10 +151,10 @@ export default function ServicesContent() {
             </section>
 
             {/* 4. CTA */}
-            <section className="py-24 bg-brand-green text-center">
+            <section className="py-24 bg-primary-sand text-center">
                 <div className="container mx-auto px-6">
-                    <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-10">Power Your Next <span className="text-ind-yellow">Project</span></h2>
-                    <button className="px-16 py-6 bg-ind-yellow hover:bg-ind-yellow-dark text-brand-green font-black uppercase text-sm tracking-widest shadow-2xl transition-transform hover:-translate-y-1">
+                    <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-10">Power Your Next <span className="text-secondary-charcoal/70">Project</span></h2>
+                    <button className="px-16 py-6 bg-accent-yellow hover:bg-accent-yellow text-brand-dark font-black uppercase text-sm tracking-widest shadow-2xl transition-transform hover:-translate-y-1">
                         Inquire Technical Fleet
                     </button>
                 </div>
