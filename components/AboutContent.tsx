@@ -35,7 +35,8 @@ export default function AboutContent() {
                     opacity: 0,
                     stagger: 0.15,
                     duration: 0.8,
-                    ease: 'power3.out'
+                    ease: 'power3.out',
+                    immediateRender: false
                 });
             });
         }, root);
@@ -123,7 +124,7 @@ export default function AboutContent() {
             </section>
 
             {/* 3. VALUES SECTION */}
-            <section className="values-grid py-32 bg-bg-light">
+            <section className="values-grid pt-32 pb-12 bg-[#F0F0F0] border-b-0">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col mb-20 scroll-animate">
                         <h2 className="text-5xl md:text-7xl font-black text-brand-green uppercase tracking-tighter italic">Machine <span className="text-ind-yellow">Code</span></h2>

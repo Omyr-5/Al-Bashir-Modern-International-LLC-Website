@@ -56,13 +56,15 @@ export default function ServicesContent() {
             gsap.from('.process-box', {
                 scrollTrigger: {
                     trigger: '.process-section',
-                    start: 'top 75%'
+                    start: 'top 75%',
+                    toggleActions: 'play none none none',
                 },
                 x: -30,
                 opacity: 0,
                 stagger: 0.2,
                 duration: 1,
-                ease: 'power3.out'
+                ease: 'power3.out',
+                immediateRender: false
             });
         }, root);
 

@@ -27,7 +27,7 @@ export default function Home() {
   const root = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+    let ctx = gsap.context(() => {
       // Hero Content Animation
       gsap.from('.hero-content > *', {
         x: -100,
@@ -39,37 +39,119 @@ export default function Home() {
       });
 
       // Section Scroll Animations
-      const sections = ['.about-section', '.what-we-do-section', '.services-section', '.our-work-section', '.stats-section', '.cta-section'];
-      sections.forEach((selector) => {
-        gsap.from(`${selector} .scroll-animate`, {
-          scrollTrigger: {
-            trigger: selector,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-          },
-          y: 60,
-          opacity: 0,
-          stagger: 0.15,
-          duration: 1,
-          ease: 'power3.out'
-        });
+      // specific animations for better control
+
+      // About Section
+      gsap.from('.about-section .scroll-animate', {
+        scrollTrigger: {
+          trigger: '.about-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        immediateRender: false
       });
+
+      // What We Do
+      gsap.from('.what-we-do-section .scroll-animate', {
+        scrollTrigger: {
+          trigger: '.what-we-do-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        immediateRender: false
+      });
+
+      // Services
+      gsap.from('.services-section .scroll-animate', {
+        scrollTrigger: {
+          trigger: '.services-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        immediateRender: false
+      });
+
+      // Our Work
+      gsap.from('.our-work-section .scroll-animate', {
+        scrollTrigger: {
+          trigger: '.our-work-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        immediateRender: false
+      });
+
+      // Stats
+      gsap.from('.stats-section .scroll-animate', {
+        scrollTrigger: {
+          trigger: '.stats-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        immediateRender: false
+      });
+
+      // CTA
+      gsap.from('.cta-section .scroll-animate', {
+        scrollTrigger: {
+          trigger: '.cta-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        immediateRender: false
+      });
+
 
       // Special animation for the skewed "Performance" box
       gsap.from('.skew-box', {
         scrollTrigger: {
           trigger: '.about-section',
-          start: 'top 70%'
+          start: 'top 70%',
+          toggleActions: 'play none none none',
         },
         scaleX: 0,
         transformOrigin: 'left',
         duration: 1,
-        ease: 'expo.out'
+        ease: 'expo.out',
+        immediateRender: false
       });
 
     }, root);
 
-    return () => ctx.revert();
+    // Force a refresh after a short delay to account for layout shifts (e.g. images loading)
+    // This is often needed in Next.js when images lack explicit dimensions or load late
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -322,17 +404,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <footer className="bg-[#003900] py-20 px-6 border-t-[20px] border-[#003700]">
-        <div className="container mx-auto text-center">
-          <div className="text-[#FFCD11] font-black text-4xl uppercase tracking-tighter mb-8 italic">
-            Al Bashir <span className="text-white">Modern.</span>
-          </div>
-          <div className="mt-10 text-white/20 text-[10px] uppercase font-bold tracking-[0.4em]">
-            © 1998–2024 Al-Bashir Modern International LLC. Built Heavy.
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
