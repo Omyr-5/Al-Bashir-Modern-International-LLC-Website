@@ -1,4 +1,7 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useLayoutEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   ArrowRight,
   Construction,
@@ -8,86 +11,163 @@ import {
   Building2,
   Briefcase,
   Target,
-  Trophy
+  Trophy,
+  Pickaxe,
+  Hammer,
+  Zap,
+  Truck,
+  Wrench,
+  ArrowRightLeft
 } from 'lucide-react';
 import Image from 'next/image';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-export default async function Home() {
-  const t = await getTranslations('Home');
+gsap.registerPlugin(ScrollTrigger);
+
+export default function Home() {
+  const t = useTranslations('Home');
+  const root = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero Background Animation
+      gsap.fromTo('.hero-bg',
+        { scale: 1.2, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 2, ease: 'power4.out' }
+      );
+
+      // Hero Content Animation
+      gsap.from('.hero-content > *', {
+        y: 100,
+        opacity: 0,
+        stagger: 0.2,
+        duration: 1,
+        ease: 'back.out(1.7)',
+        delay: 0.5
+      });
+
+      // Scroll Animations for sections
+      const sections = ['#who-we-are', '#what-we-do', '#stats', '#cta'];
+      sections.forEach(section => {
+        gsap.from(`${section} .animate-up`, {
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+          },
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power3.out'
+        });
+      });
+
+      // Parallax for Hero
+      gsap.to('.hero-bg', {
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        },
+        y: 200,
+        ease: 'none'
+      });
+    }, root);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <main className="flex flex-col min-h-screen">
+    <main ref={root} className="flex flex-col min-h-screen font-sans">
       {/* 1. HERO SECTION */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="hero-section relative h-[95vh] flex items-center justify-center overflow-hidden">
         {/* Background Overlay */}
-        <div className="absolute inset-0 z-0 bg-neutral-900/60" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-neutral-900/30 via-neutral-900/20 to-neutral-900/80 backdrop-blur-[1px]" />
 
-        {/* Placeholder for Background Image/Video */}
-        <div className="absolute inset-0 z-[-1] bg-[url('https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
+        {/* Hero Background Image */}
+        <div className="hero-bg absolute inset-0 z-0 select-none">
+          <Image
+            src="/images/hero-bg.png"
+            alt="Modern Heavy Machinery"
+            fill
+            priority
+            className="object-cover object-center"
+            quality={90}
+          />
+        </div>
 
-        <div className="container relative z-10 px-6 mx-auto text-center text-white">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 animate-fade-in">
-            Engineering the <span className="text-blue-500">Foundation</span> <br />
-            of Tomorrow
+        <div className="container relative z-20 px-6 mx-auto text-center text-white hero-content">
+          <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase border border-white/20 rounded-full bg-white/5 backdrop-blur-md">
+            Pioneering The Future
+          </div>
+          <h1 className="text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter mb-8 leading-none drop-shadow-2xl">
+            BUILDING <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300">LEGACIES</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-neutral-200 mb-10 leading-relaxed">
-            Delivering innovative geotechnical solutions and engineering excellence for global infrastructure projects. We turn technical challenges into sustainable realities.
+          <p className="max-w-2xl mx-auto text-lg md:text-2xl text-neutral-100 mb-12 leading-relaxed font-light drop-shadow-md">
+            Delivering innovative geotechnical solutions and engineering excellence for global infrastructure. We turn distinct challenges into sustainable realities.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all flex items-center gap-2 group">
-              Explore Our Services
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <button className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition-all flex items-center gap-2 group shadow-[0_0_40px_-10px_rgba(37,99,235,0.5)] hover:shadow-[0_0_60px_-10px_rgba(37,99,235,0.7)] hover:scale-105 active:scale-95">
+              Explore Services
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg backdrop-blur-sm transition-all border border-white/30">
-              View Our Projects
+            <button className="px-10 py-5 bg-white/5 hover:bg-white/10 text-white font-bold rounded-full backdrop-blur-md transition-all border border-white/20 hover:border-white/40 hover:scale-105 active:scale-95">
+              Our Projects
             </button>
           </div>
         </div>
       </section>
 
       {/* 2. WHO WE ARE SECTION */}
-      <section className="py-24 bg-white dark:bg-neutral-900">
-        <div className="container px-6 mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-6">
-              <div className="inline-block px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-full">
+      <section id="who-we-are" className="py-32 bg-white dark:bg-neutral-950 px-6">
+        <div className="container mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <div className="space-y-8 animate-up">
+              <div className="inline-block px-4 py-1.5 text-xs font-black uppercase tracking-widest text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-full">
                 Our Identity
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white">
-                Decades of Engineering Precision and Innovation
+              <h2 className="text-4xl md:text-6xl font-black text-neutral-900 dark:text-white leading-[1.1]">
+                Decades of Engineering <br />
+                <span className="text-neutral-400">Precision & Innovation</span>
               </h2>
-              <p className="text-lg text-neutral-600 dark:text-neutral-400">
-                Founded with a vision to redefine geotechnical engineering, Al-Bashir Modern International has grown into a leading force in the construction sector. We combine deep technical expertise with state-of-the-art technology to provide solutions that are both robust and efficient.
+              <p className="text-xl text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
+                Founded with a vision to redefine geotechnical engineering, Al-Bashir Modern International has grown into a leading force. We combine deep technical expertise with state-of-the-art technology to provide solutions that are both robust and efficient.
               </p>
-              <p className="text-lg text-neutral-600 dark:text-neutral-400">
-                Our team consists of industry veterans and innovators who specialize in complex terrain analysis, foundation design, and sustainable infrastructure development. Every project we undertake is a testament to our commitment to safety, quality, and client satisfaction.
-              </p>
-              <div className="pt-4 grid grid-cols-2 gap-6">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg text-blue-600">
-                    <Target className="w-5 h-5" />
+              <div className="grid grid-cols-2 gap-8 pt-4">
+                <div className="space-y-3">
+                  <div className="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-900/40 rounded-2xl text-blue-600 shadow-sm">
+                    <Target className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold dark:text-white">Precision</h4>
-                    <p className="text-sm text-neutral-500">Digtial terrain mapping</p>
+                    <h4 className="font-bold text-xl dark:text-white">Precision</h4>
+                    <p className="text-neutral-500 font-light text-sm">Digital terrain analysis</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg text-blue-600">
-                    <ShieldCheck className="w-5 h-5" />
+                <div className="space-y-3">
+                  <div className="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-900/40 rounded-2xl text-blue-600 shadow-sm">
+                    <ShieldCheck className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold dark:text-white">Reliability</h4>
-                    <p className="text-sm text-neutral-500">ISO Certified Safety</p>
+                    <h4 className="font-bold text-xl dark:text-white">Reliability</h4>
+                    <p className="text-neutral-500 font-light text-sm">ISO Certified Safety</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="relative group">
-              <div className="absolute -inset-4 bg-blue-600/10 rounded-2xl -z-10 group-hover:scale-105 transition-transform duration-500" />
-              <div className="aspect-[4/3] rounded-xl bg-neutral-200 dark:bg-neutral-800 overflow-hidden shadow-2xl transition-all duration-300">
-                {/* Image Placeholder */}
-                <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700" />
+            <div className="relative animate-up delay-200">
+              <div className="absolute -inset-10 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 rounded-[3rem] blur-3xl -z-10" />
+              <div className="aspect-[4/3] rounded-[2.5rem] bg-neutral-100 dark:bg-neutral-900 overflow-hidden shadow-2xl relative">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
+                <div className="absolute bottom-8 left-8 z-20">
+                  <div className="text-4xl font-bold text-white mb-2">25+</div>
+                  <div className="text-neutral-300 text-sm tracking-uppercase">Years of Experience</div>
+                </div>
+                {/* Using a placeholder for interior/team shot */}
+                <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1581094794329-cd13693db462?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-1000 hover:scale-105" />
               </div>
             </div>
           </div>
@@ -95,56 +175,38 @@ export default async function Home() {
       </section>
 
       {/* 3. WHAT WE DO SECTION */}
-      <section className="py-24 bg-neutral-50 dark:bg-neutral-800/50">
-        <div className="container px-6 mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 dark:text-white">
-              Core Expertise & Specialized Services
-            </h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400">
-              We provide a comprehensive suite of geotechnical and engineering services tailored to meet the rigorous demands of modern construction.
+      <section id="what-we-do" className="py-32 bg-neutral-50 dark:bg-neutral-900/30 px-6">
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10 animate-up">
+            <div className="max-w-2xl">
+              <div className="inline-block px-4 py-1.5 text-xs font-black uppercase tracking-widest text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-full mb-6">
+                Expertise
+              </div>
+              <h2 className="text-4xl md:text-6xl font-black dark:text-white leading-tight">
+                Core Expertise & <br /> Specialized Services
+              </h2>
+            </div>
+            <p className="text-xl text-neutral-600 dark:text-neutral-400 font-light max-w-md pb-2">
+              Comprehensive geotechnical and engineering services tailored to meet the rigorous demands of modern construction.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              {
-                title: "Geotechnical Investigation",
-                desc: "Comprehensive soil analysis and site characterization to ensure groundwork stability.",
-                icon: HardHat
-              },
-              {
-                title: "Foundation Design",
-                desc: "Expert structural engineering for deep and shallow foundations in complex environments.",
-                icon: Building2
-              },
-              {
-                title: "Site Engineering",
-                desc: "Precise engineering support for large-scale industrial and commercial developments.",
-                icon: Construction
-              },
-              {
-                title: "Quality Monitoring",
-                desc: "Rigorous material testing and seismic monitoring for project longevity.",
-                icon: ShieldCheck
-              },
-              {
-                title: "Project Management",
-                desc: "End-to-end oversight ensuring timelines, budget, and safety protocols are met.",
-                icon: Briefcase
-              },
-              {
-                title: "Infrastructure Support",
-                desc: "Specialized solutions for roads, bridges, and underground utility networks.",
-                icon: Target
-              }
+              { title: "Drilling Service", icon: Pickaxe, desc: "Expert drilling for geotechnical investigation and resources." },
+              { title: "Civil Work", icon: Hammer, desc: "Comprehensive civil engineering for residential and commercial." },
+              { title: "Electrical Works", icon: Zap, desc: "Full-spectrum electrical installations and maintenance." },
+              { title: "Infrastructure", icon: Building2, desc: "Building roads, bridges, and utility networks." },
+              { title: "Equipment Rental", icon: Truck, desc: "High-quality heavy machinery and construction equipment." },
+              { title: "Maintenance", icon: Wrench, desc: "Reliable support ensuring facility longevity." },
+              { title: "Shifting Materials", icon: ArrowRightLeft, desc: "Efficient logistics and earthmoving services." }
             ].map((service, index) => (
-              <div key={index} className="p-8 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-100 dark:border-neutral-800 hover:border-blue-500 dark:hover:border-blue-500 transition-all group shadow-sm hover:shadow-xl">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center rounded-lg mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                  <service.icon className="w-6 h-6" />
+              <div key={index} className="animate-up group p-10 bg-white dark:bg-neutral-900 rounded-[2rem] border border-neutral-100 dark:border-neutral-800 hover:border-blue-500/30 transition-all duration-300 shadow-sm hover:shadow-2xl hover:-translate-y-1">
+                <div className="w-14 h-14 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white flex items-center justify-center rounded-2xl mb-8 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                  <service.icon className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 dark:text-white">{service.title}</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <h3 className="text-2xl font-bold mb-4 dark:text-white group-hover:text-blue-600 transition-colors">{service.title}</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
                   {service.desc}
                 </p>
               </div>
@@ -154,24 +216,23 @@ export default async function Home() {
       </section>
 
       {/* 4. EXPERIENCE / STATS SECTION */}
-      <section className="py-24 bg-neutral-900 text-white relative overflow-hidden">
-        {/* Subtle geometric pattern placeholder */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_1px_1px,#ffffff_1px,transparent_0)] bg-[size:40px_40px]" />
+      <section id="stats" className="py-32 bg-neutral-950 text-white relative overflow-hidden px-6">
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]" />
 
-        <div className="container px-6 mx-auto relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="container mx-auto relative z-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 border-t border-neutral-800 pt-16">
             {[
               { label: "Years of Excellence", value: "25+", icon: Trophy },
               { label: "Completed Projects", value: "850+", icon: Building2 },
               { label: "Global Clients", value: "120+", icon: Users },
               { label: "Awards Won", value: "15+", icon: Target }
             ].map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="inline-flex p-3 bg-white/5 rounded-full mb-6 group-hover:bg-blue-600 transition-colors">
-                  <stat.icon className="w-6 h-6 text-blue-400 group-hover:text-white" />
+              <div key={index} className="animate-up text-center group md:text-left">
+                <div className="inline-flex p-3 bg-neutral-900 rounded-2xl mb-6 group-hover:bg-blue-600/20 group-hover:text-blue-500 transition-colors">
+                  <stat.icon className="w-6 h-6 text-neutral-400" />
                 </div>
-                <div className="text-4xl md:text-5xl font-bold mb-2 tracking-tight">{stat.value}</div>
-                <div className="text-neutral-400 font-medium uppercase text-sm tracking-wider">{stat.label}</div>
+                <div className="text-5xl md:text-7xl font-black mb-2 tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-500">{stat.value}</div>
+                <div className="text-neutral-500 font-bold uppercase text-xs tracking-widest">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -179,26 +240,27 @@ export default async function Home() {
       </section>
 
       {/* 5. CALL TO ACTION */}
-      <section className="py-24 bg-white dark:bg-neutral-950">
-        <div className="container px-6 mx-auto">
-          <div className="max-w-4xl mx-auto p-10 md:p-16 rounded-[2rem] bg-blue-600 text-white text-center shadow-2xl relative overflow-hidden">
-            {/* Design accents */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+      <section id="cta" className="py-32 bg-white dark:bg-neutral-950 overflow-hidden px-6">
+        <div className="container mx-auto animate-up">
+          <div className="relative group p-12 md:p-24 rounded-[3rem] bg-blue-600 overflow-hidden text-center shadow-2xl">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 mix-blend-overlay" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-black/20 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4 mix-blend-multiply" />
 
-            <h2 className="text-3xl md:text-5xl font-bold mb-8 relative z-10">
-              Ready to build the foundation for your next project?
-            </h2>
-            <p className="text-lg md:text-xl text-blue-100 mb-10 max-w-2xl mx-auto relative z-10">
-              Contact our expert engineering team today for a comprehensive consultation and geotechnical assessment.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-10">
-              <button className="px-10 py-5 bg-white text-blue-600 hover:bg-neutral-100 font-bold rounded-xl transition-all shadow-lg hover:scale-105">
-                Contact Our Team
-              </button>
-              <button className="px-10 py-5 bg-blue-700/50 hover:bg-blue-700 text-white font-bold rounded-xl transition-all border border-blue-400/30">
-                Request a Quote
-              </button>
+            <div className="relative z-10 flex flex-col items-center">
+              <h2 className="text-4xl md:text-7xl font-black mb-10 text-white leading-[0.9] tracking-tight">
+                READY TO BUILD <br /> THE FOUNDATION?
+              </h2>
+              <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-2xl font-light">
+                Contact our expert engineering team today for a comprehensive consultation.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
+                <button className="w-full sm:w-auto px-12 py-6 bg-white text-blue-600 hover:bg-neutral-100 font-bold rounded-full transition-all shadow-xl hover:scale-105 active:scale-95">
+                  Contact Our Team
+                </button>
+                <button className="w-full sm:w-auto px-12 py-6 bg-blue-700/50 hover:bg-blue-800 text-white font-bold rounded-full transition-all border border-white/20 backdrop-blur-md">
+                  Request a Quote
+                </button>
+              </div>
             </div>
           </div>
         </div>
