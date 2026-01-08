@@ -4,7 +4,8 @@ import { useRef, useLayoutEffect } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Briefcase, MapPin, Clock, Search, Filter, ArrowRight, TrendingUp, Users, Building, HardHat } from 'lucide-react';
+import { Briefcase, MapPin, Clock, Search, Filter, TrendingUp, Users, Building, HardHat } from 'lucide-react';
+import CustomArrow from './CustomArrow';
 
 gsap.registerPlugin(ScrollTrigger);
 

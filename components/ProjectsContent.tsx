@@ -4,7 +4,8 @@ import { useRef, useState, useLayoutEffect } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Filter, ArrowUpRight, MapPin, Calendar, HardHat } from 'lucide-react';
+import { Filter, MapPin, Calendar, HardHat } from 'lucide-react';
+import CustomArrow from './CustomArrow';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -126,7 +127,7 @@ export default function ProjectsContent() {
                                     </div>
                                     {/* Enhanced CTA Button */}
                                     <button className="flex items-center gap-2 text-brand-green font-black uppercase text-[11px] tracking-widest pt-6 border-t-2 border-slate-100 w-full group-hover:text-ind-yellow group-hover:border-ind-yellow transition-all group/btn">
-                                        VIEW TECHNICAL SPECS <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                                        VIEW TECHNICAL SPECS <CustomArrow direction="up-right" className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                                     </button>
                                 </div>
                             </div>

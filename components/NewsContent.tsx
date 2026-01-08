@@ -4,7 +4,8 @@ import { useRef, useLayoutEffect } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Calendar, ArrowRight, Share2, Tag } from 'lucide-react';
+import { Calendar, Share2, Tag } from 'lucide-react';
+import CustomArrow from './CustomArrow';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -111,7 +112,7 @@ export default function NewsContent() {
                                     </p>
                                     <div className="pt-6 border-t border-slate-100 flex justify-between items-center group-hover:border-white/10">
                                         <button className="flex items-center gap-2 text-brand-green group-hover:text-ind-yellow font-black text-[10px] uppercase tracking-widest">
-                                            READ FULL LOG <ArrowRight className="w-4 h-4" />
+                                            READ FULL LOG <CustomArrow className="w-4 h-4" />
                                         </button>
                                         <Share2 className="w-4 h-4 text-slate-300 group-hover:text-white/30" />
                                     </div>

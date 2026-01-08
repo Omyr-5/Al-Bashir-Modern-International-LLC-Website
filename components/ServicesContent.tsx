@@ -12,12 +12,12 @@ import {
     Truck,
     Wrench,
     ArrowRightLeft,
-    ArrowRight,
     CheckCircle2,
     HardHat,
     Settings,
     Construction
 } from 'lucide-react';
+import CustomArrow from './CustomArrow';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -122,7 +122,7 @@ export default function ServicesContent() {
                                     {s.desc}
                                 </p>
                                 <button className="text-brand-green group-hover:text-ind-yellow font-black text-[10px] tracking-widest uppercase flex items-center gap-2">
-                                    View Specs <ArrowRight className="w-3 h-3" />
+                                    View Specs <CustomArrow className="w-3 h-3" />
                                 </button>
                             </div>
                         ))}

@@ -1,8 +1,10 @@
 'use client';
 
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
+import CustomArrow from '@/components/CustomArrow';
+
+// Use strict imports to replace ArrowRight
 import {
-  ArrowRight,
   Construction,
   Settings,
   ShieldCheck,
@@ -25,6 +27,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const root = useRef<HTMLDivElement>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroImages = [
+    "/images/hero-bg.png",
+    "/images/project-industrial.png",
+    "/images/projects-hero.png",
+    "/images/services-bg.png"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -160,14 +177,22 @@ export default function Home() {
       {/* 1. HERO SECTION */}
       <section className="relative h-[90vh] flex items-center bg-[#003900] overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/hero-bg.png"
-            alt="Industrial Machinery"
-            fill
-            className="object-cover opacity-30 grayscale"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#003900] via-[#003900]/60 to-transparent" />
+          {heroImages.map((src, index) => (
+            <div
+              key={src}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <Image
+                src={src}
+                alt={`Industrial Slide ${index + 1}`}
+                fill
+                className="object-cover"
+                priority={index === 0}
+              />
+            </div>
+          ))}
+          {/* Reduced overlay opacity from 60% to 40% and removed grayscale for better visibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#003900]/80 via-[#003900]/40 to-transparent" />
         </div>
 
         <div className="absolute bottom-0 left-0 w-full h-4 bg-[#FFCD11] z-20" />
@@ -187,7 +212,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4">
               <button className="px-12 py-5 bg-[#FFCD11] hover:bg-[#E6B800] text-[#003900] font-black transition-all flex items-center justify-center gap-4 rounded-none shadow-2xl">
                 VIEW MACHINERY
-                <ArrowRight className="w-6 h-6" />
+                <CustomArrow className="w-6 h-6" />
               </button>
               <button className="px-12 py-5 bg-transparent border-4 border-white text-white hover:bg-white hover:text-[#003900] font-black transition-all rounded-none">
                 OUR SERVICES
@@ -249,7 +274,7 @@ export default function Home() {
       <section className="what-we-do-section py-32 bg-[#F0F0F0] px-6 border-b-8 border-slate-200">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row gap-16 items-start">
-            <div className="md:w-1/3 scroll-animate">
+            <div className="md:w-1/3 scroll-animate mb-10 md:mb-0">
               <span className="inline-block py-1 px-3 mb-6 bg-[#003900] text-white text-[12px] font-black uppercase tracking-tighter rounded-none">
                 Core Capabilities
               </span>
@@ -257,17 +282,40 @@ export default function Home() {
                 What We <br /> <span className="text-[#FFCD11]">Deliver.</span>
               </h2>
             </div>
-            <div className="md:w-2/3 grid md:grid-cols-2 gap-10">
+            {/* ACCORDION LAYOUT */}
+            <div className="md:w-2/3 h-[700px] flex flex-col md:flex-row gap-2">
               {[
-                { icon: Globe, title: "Infrastructure", desc: "Large-scale transport and utility networks that connect cities." },
-                { icon: HardHat, title: "Geotechnical", desc: "Scientific earth-studying and preparation for safe foundations." },
-                { icon: Construction, title: "Construction", desc: "End-to-end heavy construction operational management." },
-                { icon: Truck, title: "Logistics", desc: "Complex machinery transport and on-site fleet coordination." },
+                { icon: Globe, title: "Infrastructure", desc: "Large-scale transport networks.", img: "/images/projects-hero.png" },
+                { icon: HardHat, title: "Geotechnical", desc: "Scientific earth-studying.", img: "/images/services-bg.png" },
+                { icon: Construction, title: "Construction", desc: "Heavy operational management.", img: "/images/project-industrial.png" },
+                { icon: Truck, title: "Logistics", desc: "Complex machinery transport.", img: "/images/project-commercial.png" },
               ].map((item, idx) => (
-                <div key={idx} className="scroll-animate group p-8 bg-white border-l-4 border-transparent hover:border-[#FFCD11] hover:shadow-xl transition-all duration-300">
-                  <item.icon className="w-10 h-10 text-[#003900] mb-6 group-hover:text-[#FFCD11] transition-colors" />
-                  <h3 className="text-2xl font-black text-[#003900] uppercase mb-3">{item.title}</h3>
-                  <p className="text-sm font-bold text-[#111111]/60 uppercase tracking-tight">{item.desc}</p>
+                <div
+                  key={idx}
+                  className="scroll-animate group relative flex-1 hover:flex-[3] transition-[flex] duration-700 ease-out bg-[#003900] overflow-hidden border-r border-[#FFCD11]/30 cursor-pointer"
+                >
+                  {/* Full Background Image */}
+                  <div className="absolute inset-0">
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fill
+                      className="object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#003900] via-[#003900]/80 to-transparent opacity-90 group-hover:opacity-0 transition-opacity duration-500" />
+                  </div>
+
+                  <div className="absolute bottom-0 left-0 p-8 z-10 w-full whitespace-nowrap overflow-hidden transition-all duration-500 group-hover:opacity-0 group-hover:translate-y-10">
+                    <item.icon className="w-8 h-8 text-[#FFCD11] mb-4" />
+                    <h3 className="text-2xl font-black text-white uppercase italic transform -rotate-0 md:group-hover:rotate-0 transition-transform origin-bottom-left">
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  {/* Hover Content (Optional: Only show if needed, or keep clean image) */}
+                  <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-300">
+                    <h3 className="text-4xl font-black text-[#FFCD11] uppercase italic tracking-tighter shadow-black drop-shadow-md">{item.title}</h3>
+                  </div>
                 </div>
               ))}
             </div>
@@ -285,28 +333,48 @@ export default function Home() {
             <div className="w-32 h-4 bg-[#FFCD11]" />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { title: "Drilling fleet", icon: Pickaxe, desc: "High-torque rigs for severe terrain and deep boreholes." },
-              { title: "Civil Works", icon: Construction, desc: "Site clearing, excavation, and structural grading." },
-              { title: "Power Supply", icon: Box, desc: "Industrial generators and temporary power infrastructure." },
-              { title: "Fleet Hire", icon: Truck, desc: "Full inventory of CAT-certified heavy machinery." }
+              { title: "Drilling fleet", icon: Pickaxe, desc: "High-torque rigs for severe terrain and deep boreholes.", img: "/images/services-bg.png" },
+              { title: "Civil Works", icon: Construction, desc: "Site clearing, excavation, and structural grading.", img: "/images/projects-hero.png" },
+              { title: "Power Supply", icon: Box, desc: "Industrial generators and temporary power infrastructure.", img: "/images/project-industrial.png" },
+              { title: "Fleet Hire", icon: Truck, desc: "Full inventory of CAT-certified heavy machinery.", img: "/images/project-commercial.png" }
             ].map((service, index) => (
-              <div key={index} className="scroll-animate group relative bg-white border border-slate-200 p-12 hover:bg-[#003900] transition-all duration-500 overflow-hidden">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-[#FFCD11] transform translate-x-1/2 -translate-y-1/2 rotate-45 group-hover:bg-[#FF4000] transition-colors" />
-                <div className="relative z-10">
-                  <div className="w-16 h-16 bg-[#FFCD11] flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                    <service.icon className="w-8 h-8 text-[#003900]" />
+              <div key={index} className="scroll-animate group relative h-[600px] w-full bg-[#111] overflow-hidden border-4 border-[#333] hover:border-[#FFCD11] transition-transform duration-500 hover:scale-[1.02] hover:z-20 shadow-2xl flex flex-col justify-between">
+
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src={service.img}
+                    alt={service.title}
+                    fill
+                    className="object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#003900]/80 via-[#003900]/40 to-transparent group-hover:opacity-0 transition-opacity duration-500" />
+                </div>
+
+                {/* Tech Corners */}
+                <div className="absolute top-4 left-4 w-8 h-8 border-t-4 border-l-4 border-white/20 group-hover:border-[#FFCD11] transition-colors z-20" />
+                <div className="absolute top-4 right-4 w-8 h-8 border-t-4 border-r-4 border-white/20 group-hover:border-[#FFCD11] transition-colors z-20" />
+
+                {/* Content that Hides on Hover */}
+                <div className="relative z-10 p-10 flex-grow flex flex-col justify-center items-center text-center transition-all duration-500 group-hover:opacity-0 group-hover:-translate-y-10">
+                  <div className="w-24 h-24 bg-[#FFCD11] rounded-full flex items-center justify-center mb-8 shadow-xl">
+                    <service.icon className="w-12 h-12 text-[#003900]" />
                   </div>
-                  <h3 className="text-3xl font-black text-[#003900] group-hover:text-white mb-6 uppercase leading-[0.8]">
+                  <h3 className="text-4xl font-black text-white mb-6 uppercase leading-[0.85] tracking-tighter">
                     {service.title}
                   </h3>
-                  <p className="text-[#111111]/60 font-bold group-hover:text-white/70 uppercase text-xs tracking-tight mb-8">
+                  <p className="text-white/80 font-bold uppercase text-xs tracking-widest max-w-[80%] mx-auto leading-relaxed border-b-2 border-[#FFCD11] pb-6">
                     {service.desc}
                   </p>
-                  <button className="text-[#003900] group-hover:text-[#FFCD11] font-black text-[11px] tracking-widest uppercase flex items-center gap-2">
-                    SPECIFICATIONS
-                    <ChevronRight className="w-4 h-4" />
+                </div>
+
+                {/* Button that STAYS and Modifies */}
+                <div className="relative z-20 p-8 w-full flex justify-center bg-gradient-to-t from-black/80 to-transparent">
+                  <button className="px-10 py-4 bg-[#003900] text-white border-2 border-[#FFCD11] group-hover:bg-[#FFCD11] group-hover:text-[#003900] font-black text-xs tracking-widest uppercase flex items-center gap-3 transition-all duration-300 shadow-2xl scale-100 group-hover:scale-110">
+                    VIEW SPECS
+                    <CustomArrow className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -352,7 +420,7 @@ export default function Home() {
 
           <div className="mt-16 text-center scroll-animate">
             <button className="px-12 py-5 border-4 border-[#003900] text-[#003900] hover:bg-[#003900] hover:text-[#FFCD11] font-black uppercase tracking-widest text-xs transition-all flex items-center gap-3 mx-auto">
-              View All Projects <ChevronRight className="w-4 h-4" />
+              View All Projects <CustomArrow className="w-4 h-4" />
             </button>
           </div>
         </div>
