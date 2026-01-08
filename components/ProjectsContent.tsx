@@ -58,7 +58,7 @@ export default function ProjectsContent() {
     const filtered = filter === 'All' ? projects : projects.filter(p => p.category === filter);
 
     return (
-        <div ref={root} className="min-h-screen bg-bg-light text-text-dark">
+        <div ref={root} className="min-h-screen bg-[#F0F0F0] text-text-dark">
             {/* 1. HERO SECTION */}
             <section className="prj-hero relative py-32 bg-brand-green text-white overflow-hidden border-b-8 border-ind-yellow">
                 <div className="absolute inset-0 opacity-10">

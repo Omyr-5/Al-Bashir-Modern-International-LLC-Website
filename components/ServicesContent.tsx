@@ -86,7 +86,7 @@ export default function ServicesContent() {
     ];
 
     return (
-        <div ref={root} className="min-h-screen bg-bg-light text-text-dark pt-20">
+        <div ref={root} className="min-h-screen bg-[#F0F0F0] text-text-dark pt-20">
             {/* 1. HERO SECTION */}
             <section className="srv-hero relative py-32 bg-brand-green text-white overflow-hidden border-b-[12px] border-ind-yellow">
                 <div className="absolute inset-0 opacity-10">

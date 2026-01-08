@@ -64,7 +64,7 @@ export default function JobsContent() {
     ];
 
     return (
-        <div ref={root} className="min-h-screen bg-bg-light">
+        <div ref={root} className="min-h-screen bg-[#F0F0F0]">
             {/* 1. HERO SECTION */}
             <section className="jobs-hero relative py-32 bg-brand-green text-white overflow-hidden border-b-8 border-ind-yellow">
                 <div className="absolute inset-0 opacity-10">

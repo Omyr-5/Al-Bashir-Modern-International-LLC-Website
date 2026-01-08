@@ -12,7 +12,10 @@ import {
   HardHat,
   Truck,
   Box,
-  ChevronRight
+  ChevronRight,
+  Globe,
+  Building2,
+  Briefcase
 } from 'lucide-react';
 import Image from 'next/image';
 import gsap from 'gsap';
@@ -36,7 +39,7 @@ export default function Home() {
       });
 
       // Section Scroll Animations
-      const sections = ['.about-section', '.services-section', '.stats-section', '.cta-section'];
+      const sections = ['.about-section', '.what-we-do-section', '.services-section', '.our-work-section', '.stats-section', '.cta-section'];
       sections.forEach((selector) => {
         gsap.from(`${selector} .scroll-animate`, {
           scrollTrigger: {
@@ -160,6 +163,36 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 2.5. WHAT WE DO SECTION */}
+      <section className="what-we-do-section py-32 bg-[#F0F0F0] px-6 border-b-8 border-slate-200">
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row gap-16 items-start">
+            <div className="md:w-1/3 scroll-animate">
+              <span className="inline-block py-1 px-3 mb-6 bg-[#003900] text-white text-[12px] font-black uppercase tracking-tighter rounded-none">
+                Core Capabilities
+              </span>
+              <h2 className="text-5xl md:text-6xl font-black text-[#003900] uppercase italic tracking-tighter leading-[0.9]">
+                What We <br /> <span className="text-[#FFCD11]">Deliver.</span>
+              </h2>
+            </div>
+            <div className="md:w-2/3 grid md:grid-cols-2 gap-10">
+              {[
+                { icon: Globe, title: "Infrastructure", desc: "Large-scale transport and utility networks that connect cities." },
+                { icon: HardHat, title: "Geotechnical", desc: "Scientific earth-studying and preparation for safe foundations." },
+                { icon: Construction, title: "Construction", desc: "End-to-end heavy construction operational management." },
+                { icon: Truck, title: "Logistics", desc: "Complex machinery transport and on-site fleet coordination." },
+              ].map((item, idx) => (
+                <div key={idx} className="scroll-animate group p-8 bg-white border-l-4 border-transparent hover:border-[#FFCD11] hover:shadow-xl transition-all duration-300">
+                  <item.icon className="w-10 h-10 text-[#003900] mb-6 group-hover:text-[#FFCD11] transition-colors" />
+                  <h3 className="text-2xl font-black text-[#003900] uppercase mb-3">{item.title}</h3>
+                  <p className="text-sm font-bold text-[#111111]/60 uppercase tracking-tight">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 3. SERVICES SECTION */}
       <section className="services-section py-32 bg-[#F0F0F0] px-6">
         <div className="container mx-auto">
@@ -196,6 +229,49 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3.5. OUR WORK SECTION */}
+      <section className="our-work-section py-32 bg-[#F0F0F0] px-6">
+        <div className="container mx-auto">
+          <div className="flex flex-col mb-20 scroll-animate">
+            <h2 className="text-5xl md:text-8xl font-black text-[#003900] uppercase tracking-tighter leading-none italic">
+              Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#003900] to-[#FFCD11] stroke-2">Work</span>
+            </h2>
+            <div className="w-full h-2 bg-slate-200 mt-8" />
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { title: "Riyadh Metro", cat: "Infrastructure", img: "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=2070&auto=format&fit=crop" },
+              { title: "Coastal Refinery", cat: "Industrial", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop" },
+              { title: "Desert Highway", cat: "Civil", img: "https://images.unsplash.com/photo-1581094794329-cd13693db462?q=80&w=2070&auto=format&fit=crop" },
+            ].map((work, idx) => (
+              <div key={idx} className="scroll-animate group relative h-[500px] bg-white border-4 border-white hover:border-[#003900] transition-all duration-500 overflow-hidden shadow-lg">
+                <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-700">
+                  <img src={work.img} alt={work.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#003900]/90 via-transparent to-transparent opacity-100" />
+
+                <div className="absolute bottom-0 left-0 p-8 w-full">
+                  <div className="mb-4 inline-block px-3 py-1 bg-[#FFCD11] text-[#003900] text-[10px] font-black uppercase tracking-widest">
+                    {work.cat}
+                  </div>
+                  <h3 className="text-3xl font-black text-white uppercase italic leading-none mb-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    {work.title}
+                  </h3>
+                  <div className="h-1 w-0 bg-[#FFCD11] group-hover:w-full transition-all duration-500" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-16 text-center scroll-animate">
+            <button className="px-12 py-5 border-4 border-[#003900] text-[#003900] hover:bg-[#003900] hover:text-[#FFCD11] font-black uppercase tracking-widest text-xs transition-all flex items-center gap-3 mx-auto">
+              View All Projects <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </section>

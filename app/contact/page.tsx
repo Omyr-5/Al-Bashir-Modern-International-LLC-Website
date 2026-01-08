@@ -61,7 +61,7 @@ export default function ContactPage() {
     ];
 
     return (
-        <div ref={root} className="min-h-screen bg-bg-light">
+        <div ref={root} className="min-h-screen bg-[#F0F0F0]">
             {/* 1. HERO SECTION */}
             <section className="contact-hero relative pt-32 pb-48 bg-brand-green text-white overflow-hidden border-b-8 border-ind-yellow">
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>

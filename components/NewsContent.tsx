@@ -70,7 +70,7 @@ export default function NewsContent() {
     ];
 
     return (
-        <div ref={root} className="min-h-screen bg-bg-light pt-20">
+        <div ref={root} className="min-h-screen bg-[#F0F0F0] pt-20">
             {/* 1. HERO SECTION */}
             <section className="news-hero relative py-32 bg-brand-green text-white overflow-hidden border-b-8 border-ind-yellow">
                 <div className="absolute inset-0 opacity-10">
