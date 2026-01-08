@@ -10,8 +10,8 @@ const links = [
     { href: '/about', label: 'About' },
     { href: '/services', label: 'Services' },
     { href: '/projects', label: 'Projects' },
-    { href: '/news', label: 'News' },
-    { href: '/jobs', label: 'Jobs' },
+    { href: '/news', label: 'Journal' },
+    { href: '/jobs', label: 'Careers' },
     { href: '/contact', label: 'Contact' },
 ];
 
@@ -35,82 +35,68 @@ export default function Navbar() {
     useEffect(() => {
         gsap.fromTo(navRef.current,
             { y: -100, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.2 }
+            { y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', delay: 0.1 }
         );
     }, []);
-
-    // Mobile Menu Animation
-    useEffect(() => {
-        if (mobileMenuOpen) {
-            gsap.fromTo(menuRef.current,
-                { height: 0, opacity: 0 },
-                { height: 'auto', opacity: 1, duration: 0.5, ease: 'power3.out' }
-            );
-        }
-    }, [mobileMenuOpen]);
 
     return (
         <nav
             ref={navRef}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${scrolled
-                    ? 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-lg border-neutral-200/50 dark:border-neutral-800/50 py-3'
-                    : 'bg-transparent border-transparent py-6'
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b-2 ${scrolled
+                ? 'bg-brand-green shadow-[0_10px_30px_rgba(0,0,0,0.5)] border-ind-yellow py-0'
+                : 'bg-brand-green border-transparent py-4'
                 }`}
         >
             <div className="container mx-auto px-6">
-                <div className="flex items-center justify-between">
-                    {/* Logo */}
-                    <div className="relative z-50">
-                        <Link href="/" className="group flex items-center gap-2">
-                            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-blue-500/30 shadow-lg group-hover:scale-110 transition-transform">
-                                B
+                <div className="flex items-center justify-between h-20">
+                    {/* Logo Section */}
+                    <div className="relative z-50 h-full flex items-center">
+                        <Link href="/" className="group flex items-center gap-3">
+                            <div className="bg-ind-yellow px-4 py-2 transform -skew-x-12 shadow-lg">
+                                <span className="text-brand-green font-black text-2xl tracking-tighter italic transform skew-x-12 inline-block">B</span>
                             </div>
-                            <span className={`text-xl font-bold tracking-tight transition-colors ${scrolled ? 'text-neutral-900 dark:text-white' : 'text-white'
-                                }`}>
-                                Portfolio
-                            </span>
+                            <div className="flex flex-col">
+                                <span className="text-xl font-black tracking-tighter text-white uppercase leading-none">Al Bashir</span>
+                                <span className="text-[10px] font-black tracking-[0.4em] text-ind-yellow uppercase leading-none mt-1">International</span>
+                            </div>
                         </Link>
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-1">
+                    <div className="hidden lg:flex items-center h-full">
                         {links.map((link) => {
                             const isActive = pathname === link.href;
-                            const isScrolledOrActive = scrolled || isActive;
 
                             return (
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 group overflow-hidden ${isActive
-                                            ? 'bg-blue-600 text-white shadow-md'
-                                            : scrolled
-                                                ? 'text-neutral-600 dark:text-neutral-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                                                : 'text-white/90 hover:text-white hover:bg-white/10'
+                                    className={`relative px-6 flex items-center h-full text-[11px] font-black uppercase tracking-widest transition-all duration-200 border-b-4 ${isActive
+                                        ? 'bg-brand-green-alt border-ind-yellow text-ind-yellow'
+                                        : 'border-transparent text-white/70 hover:text-white hover:bg-white/5'
                                         }`}
                                 >
-                                    <span className="relative z-10">{link.label}</span>
-                                    {isActive && (
-                                        <span className="absolute inset-0 bg-blue-600 rounded-full -z-0 animate-pulse-slow" />
-                                    )}
+                                    {link.label}
                                 </Link>
                             );
                         })}
-                        <button className={`ml-4 px-5 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105 active:scale-95 ${scrolled
-                                ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:shadow-lg'
-                                : 'bg-white text-blue-900 hover:bg-blue-50 shadow-xl'
-                            }`}>
-                            Get Quote
-                        </button>
+
+                        <div className="ml-8 h-full flex items-center">
+                            <Link
+                                href="/contact"
+                                className="px-8 py-3 bg-ind-yellow text-brand-green font-black text-[11px] uppercase tracking-widest transition-all hover:bg-ind-yellow-dark hover:scale-105 active:scale-95 shadow-xl rounded-none"
+                            >
+                                Request Quote
+                            </Link>
+                        </div>
                     </div>
 
                     {/* Mobile Menu Button */}
                     <button
-                        className={`md:hidden relative z-50 p-2 rounded-lg transition-colors ${scrolled ? 'text-neutral-900 dark:text-white' : 'text-white'
-                            }`}
+                        className="lg:hidden relative z-50 p-3 bg-ind-yellow text-brand-green rounded-none"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
-                        {mobileMenuOpen ? <X /> : <Menu />}
+                        {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
                 </div>
             </div>
@@ -119,17 +105,17 @@ export default function Navbar() {
             {mobileMenuOpen && (
                 <div
                     ref={menuRef}
-                    className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 shadow-xl overflow-hidden"
+                    className="lg:hidden absolute top-full left-0 right-0 bg-brand-green border-t-4 border-ind-yellow shadow-2xl overflow-hidden"
                 >
-                    <div className="container mx-auto px-6 py-6 flex flex-col space-y-2">
-                        {links.map((link, index) => (
+                    <div className="container mx-auto flex flex-col pt-4 pb-8">
+                        {links.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`px-4 py-3 rounded-xl text-lg font-medium transition-colors ${pathname === link.href
-                                        ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600'
-                                        : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
+                                className={`px-8 py-5 text-lg font-black uppercase tracking-widest transition-all border-l-8 ${pathname === link.href
+                                    ? 'bg-brand-green-alt border-ind-yellow text-ind-yellow'
+                                    : 'border-transparent text-white/70 hover:bg-white/5'
                                     }`}
                             >
                                 {link.label}

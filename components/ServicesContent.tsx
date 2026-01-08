@@ -13,7 +13,10 @@ import {
     Wrench,
     ArrowRightLeft,
     ArrowRight,
-    CheckCircle2
+    CheckCircle2,
+    HardHat,
+    Settings,
+    Construction
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,217 +26,134 @@ export default function ServicesContent() {
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // Hero Animation
-            gsap.fromTo('.services-hero > *',
+            // Hero Intro - ensure immediate visibility start
+            gsap.fromTo('.srv-hero > div',
                 { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: 'power4.out' }
+            );
+
+            // Grid cards - ensure all cards become visible
+            gsap.fromTo('.srv-card',
                 {
+                    y: 60,
+                    opacity: 0
+                },
+                {
+                    scrollTrigger: {
+                        trigger: '.srv-grid',
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    },
                     y: 0,
                     opacity: 1,
-                    stagger: 0.2,
-                    duration: 1,
+                    stagger: 0.1,
+                    duration: 0.8,
                     ease: 'power3.out'
                 }
             );
 
-            // Services Grid Animation
-            const cards = gsap.utils.toArray('.service-card');
-            if (cards.length > 0) {
-                gsap.fromTo(cards,
-                    { y: 50, opacity: 0 },
-                    {
-                        scrollTrigger: {
-                            trigger: '.services-grid',
-                            start: 'top 80%',
-                            toggleActions: 'play none none reverse'
-                        },
-                        y: 0,
-                        opacity: 1,
-                        stagger: 0.1,
-                        duration: 0.8,
-                        ease: 'power3.out'
-                    }
-                );
-            }
-
-            // Process Animation
-            const steps = gsap.utils.toArray('.process-step');
-            if (steps.length > 0) {
-                gsap.fromTo(steps,
-                    { x: -30, opacity: 0 },
-                    {
-                        scrollTrigger: {
-                            trigger: '.process-section',
-                            start: 'top 75%',
-                            toggleActions: 'play none none reverse'
-                        },
-                        x: 0,
-                        opacity: 1,
-                        stagger: 0.2,
-                        duration: 1,
-                        ease: 'power3.out'
-                    }
-                );
-            }
-
+            // Process steps
+            gsap.from('.process-box', {
+                scrollTrigger: {
+                    trigger: '.process-section',
+                    start: 'top 75%'
+                },
+                x: -30,
+                opacity: 0,
+                stagger: 0.2,
+                duration: 1,
+                ease: 'power3.out'
+            });
         }, root);
 
         return () => ctx.revert();
     }, []);
 
     const services = [
-        {
-            title: "Drilling Service",
-            description: "Expert drilling solutions for geotechnical investigation, borehole drilling, and resource exploration.",
-            icon: Pickaxe,
-            features: ["Boreholes", "Core Sampling", "Water Wells"]
-        },
-        {
-            title: "Civil Work",
-            description: "Comprehensive civil engineering and construction services for residential and commercial projects.",
-            icon: Hammer,
-            features: ["Foundation Works", "Structural Works", "Finishing"]
-        },
-        {
-            title: "Electrical Works",
-            description: "Full-spectrum electrical installations, maintenance, and power solutions for improved efficiency.",
-            icon: Zap,
-            features: ["HV/LV Systems", "Installations", "Testing & Commissioning"]
-        },
-        {
-            title: "Infrastructure Development",
-            description: "Building the backbone of communities with roads, bridges, and utility networks.",
-            icon: Building2,
-            features: ["Roads & Highways", "Utility Networks", "Urban Planning"]
-        },
-        {
-            title: "Equipment Rental",
-            description: "Providing high-quality heavy machinery and construction equipment for your project needs.",
-            icon: Truck,
-            features: ["Cranes & Excavators", "Flexible Terms", "Maintenance Included"]
-        },
-        {
-            title: "Maintenance & Support",
-            description: "Reliable maintenance services to ensure the longevity and performance of your facilities.",
-            icon: Wrench,
-            features: ["Preventive Maintenance", "Emergency Repairs", "Facility Management"]
-        },
-        {
-            title: "Shifting Materials",
-            description: "Efficient logistics and earthmoving services for safe material transport.",
-            icon: ArrowRightLeft,
-            features: ["Earth Moving", "Material Haulage", "Logistics Support"]
-        }
+        { title: "Drilling fleet", icon: Pickaxe, desc: "High-torque, CAT-grade drilling rigs for deep borehole exploration." },
+        { title: "Civil Power", icon: Construction, desc: "Heavy-duty site earthworks, excavation, and foundational structural grading." },
+        { title: "Grid Systems", icon: Zap, desc: "Industrial-grade electrical infrastructure and HV distribution networks." },
+        { title: "Foundations", icon: Building2, desc: "Concrete structural works for high-scale industrial and commercial hubs." },
+        { title: "Heavy Rental", icon: Truck, desc: "Direct access to our premium fleet of industrial machinery and support units." },
+        { title: "Lifecycle Support", icon: Wrench, desc: "Rigorous preventive maintenance ensuring zero downtime for machinery." }
     ];
 
     const process = [
-        { title: "Consultation", step: "01", desc: "We start by understanding your vision and project requirements." },
-        { title: "Planning", step: "02", desc: "Our experts develop a comprehensive roadmap and technical design." },
-        { title: "Execution", step: "03", desc: "We implement the plan with precision, using state-of-the-art technology." },
-        { title: "Delivery", step: "04", desc: "Final inspection and handover, ensuring everything meets our high standards." },
+        { step: "01", title: "Analysis", desc: "Technical site evaluation using advanced terrain algorithms." },
+        { step: "02", title: "Mobility", desc: "Strategic deployment of the heavy fleet to the site area." },
+        { step: "03", title: "Operation", desc: "Precision execution under strict safety and performance protocols." },
+        { step: "04", title: "Handover", desc: "Final quality checks and technical sign-off of the project." }
     ];
 
     return (
-        <div ref={root} className="overflow-hidden bg-white dark:bg-neutral-950">
-            {/* Hero Section */}
-            <section className="services-hero relative py-32 bg-neutral-900 text-white overflow-hidden">
-                <div className="absolute inset-0 z-0">
-                    <Image
-                        src="/images/services-bg.png"
-                        alt="Background"
-                        fill
-                        className="object-cover opacity-30"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/80 via-neutral-900/50 to-neutral-900/90" />
+        <div ref={root} className="min-h-screen bg-bg-light text-text-dark pt-20">
+            {/* 1. HERO SECTION */}
+            <section className="srv-hero relative py-32 bg-brand-green text-white overflow-hidden border-b-[12px] border-ind-yellow">
+                <div className="absolute inset-0 opacity-10">
+                    <Image src="/images/services-bg.png" alt="Srv" fill className="object-cover grayscale" />
                 </div>
-
-                <div className="container mx-auto px-6 relative z-10 text-center">
-                    <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold tracking-widest uppercase mb-6 border border-blue-500/30">
-                        Our Expertise
-                    </span>
-                    <h1 className="text-5xl md:text-7xl font-black mb-8 tracking-tight">
-                        Engineering <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Excellence</span>
-                    </h1>
-                    <p className="max-w-2xl mx-auto text-xl text-neutral-300 font-light leading-relaxed">
-                        We provide a full spectrum of engineering and construction services, tailored to meet the unique challenges of every project.
-                    </p>
-                </div>
-            </section>
-
-            {/* Services Grid */}
-            <section className="services-grid py-24 bg-neutral-50 dark:bg-neutral-900/30">
-                <div className="container mx-auto px-6">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {services.map((service, index) => (
-                            <div key={index} className="service-card group p-8 bg-white dark:bg-neutral-900 rounded-[2rem] border border-neutral-100 dark:border-neutral-800 hover:border-blue-500/30 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full flex flex-col">
-                                <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                                    <service.icon className="w-8 h-8" />
-                                </div>
-                                <h3 className="text-2xl font-bold mb-4 dark:text-white group-hover:text-blue-600 transition-colors">{service.title}</h3>
-                                <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-8 flex-grow">
-                                    {service.description}
-                                </p>
-                                <ul className="space-y-3 pt-6 border-t border-neutral-100 dark:border-neutral-800 mt-auto">
-                                    {service.features.map((feature, idx) => (
-                                        <li key={idx} className="flex items-center gap-3 text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                                            <CheckCircle2 className="w-4 h-4 text-green-500" />
-                                            {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Process Section */}
-            <section className="process-section py-24 bg-white dark:bg-neutral-950">
-                <div className="container mx-auto px-6">
-                    <div className="text-center max-w-3xl mx-auto mb-20">
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6 dark:text-white">Our Workflow</h2>
-                        <p className="text-lg text-neutral-600 dark:text-neutral-400">
-                            A systematic approach ensuring efficiency and quality at every stage.
+                <div className="container mx-auto px-6 relative z-10">
+                    <div className="border-l-[12px] border-ind-yellow pl-10 capitalize">
+                        <span className="inline-block py-1 px-4 bg-accent-warning text-white text-[10px] font-black uppercase tracking-[0.2em] mb-8">Capabilities</span>
+                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-8 leading-[0.8] tracking-tighter uppercase italic">
+                            Built for <br /> <span className="text-ind-yellow">Execution</span>
+                        </h1>
+                        <p className="max-w-2xl text-xl font-bold text-white/70 uppercase">
+                            Delivering the heavy-duty power and technical precision your industrial project demands.
                         </p>
                     </div>
+                </div>
+            </section>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-                        {/* Connecting Line (Desktop) */}
-                        <div className="hidden lg:block absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500/0 via-blue-500/30 to-blue-500/0 -z-10" />
-
-                        {process.map((item, index) => (
-                            <div key={index} className="process-step relative pt-8 lg:pt-0">
-                                <div className="hidden lg:flex absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-neutral-950 border-4 border-blue-500 rounded-full items-center justify-center z-10 box-content">
-                                    <div className="w-2.5 h-2.5 bg-blue-500 rounded-full" />
+            {/* 2. SERVICES GRID */}
+            <section className="srv-grid py-8 px-6 relative z-10">
+                <div className="container mx-auto">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1 bg-brand-green border-2 border-brand-green">
+                        {services.map((s, i) => (
+                            <div key={i} className="srv-card p-12 bg-white hover:bg-brand-green group transition-all duration-500 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-12 h-12 bg-ind-yellow transform translate-x-6 -translate-y-6 rotate-45 group-hover:bg-accent-warning transition-colors" />
+                                <div className="w-16 h-16 bg-ind-yellow flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+                                    <s.icon className="w-8 h-8 text-brand-green" />
                                 </div>
-
-                                <div className="p-8 bg-neutral-50 dark:bg-neutral-900 rounded-2xl border border-neutral-100 dark:border-neutral-800 hover:border-blue-500 transition-colors text-center group">
-                                    <div className="text-5xl font-black text-neutral-200 dark:text-neutral-800 mb-4 group-hover:text-blue-100 dark:group-hover:text-blue-900/30 transition-colors">
-                                        {item.step}
-                                    </div>
-                                    <h3 className="text-xl font-bold mb-3 dark:text-white">{item.title}</h3>
-                                    <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                                        {item.desc}
-                                    </p>
-                                </div>
+                                <h3 className="text-2xl font-black uppercase mb-6 text-brand-green group-hover:text-white leading-none">{s.title}</h3>
+                                <p className="text-sm font-bold text-slate-500 group-hover:text-white/70 uppercase tracking-tight mb-8 leading-relaxed">
+                                    {s.desc}
+                                </p>
+                                <button className="text-brand-green group-hover:text-ind-yellow font-black text-[10px] tracking-widest uppercase flex items-center gap-2">
+                                    View Specs <ArrowRight className="w-3 h-3" />
+                                </button>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="py-24 bg-blue-900 relative overflow-hidden text-center">
-                <div className="absolute inset-0 bg-blue-600/20 mix-blend-overlay" />
-                <div className="container mx-auto px-6 relative z-10">
-                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">Ready to Start Your Project?</h2>
-                    <p className="text-blue-100 text-xl mb-10 max-w-2xl mx-auto">
-                        Contact us today for a free consultation and let's discuss how we can bring your vision to life.
-                    </p>
-                    <button className="px-10 py-5 bg-white text-blue-900 hover:bg-blue-50 font-bold rounded-full transition-all shadow-xl hover:scale-105 inline-flex items-center gap-2">
-                        Request a Quote
-                        <ArrowRight className="w-5 h-5" />
+            {/* 3. PROCESS SECTION */}
+            <section className="process-section py-32 bg-light-green border-y-4 border-slate-200">
+                <div className="container mx-auto px-6">
+                    <div className="flex flex-col mb-24 items-center text-center">
+                        <h2 className="text-5xl md:text-7xl font-black text-brand-green uppercase tracking-tighter mb-4 italic">Operational <span className="text-brand-green-alt">Core</span></h2>
+                        <div className="w-32 h-3 bg-brand-green" />
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {process.map((p, i) => (
+                            <div key={i} className="process-box p-10 bg-white border-t-8 border-ind-yellow flex flex-col h-full shadow-lg">
+                                <div className="text-5xl font-black text-text-dark/5 mb-8">{p.step}</div>
+                                <h3 className="text-xl font-bold uppercase mb-4 text-brand-green border-b-2 border-slate-100 pb-4">{p.title}</h3>
+                                <p className="text-sm font-bold text-slate-500 uppercase tracking-tight leading-relaxed">{p.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* 4. CTA */}
+            <section className="py-24 bg-brand-green text-center">
+                <div className="container mx-auto px-6">
+                    <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-10">Power Your Next <span className="text-ind-yellow">Project</span></h2>
+                    <button className="px-16 py-6 bg-ind-yellow hover:bg-ind-yellow-dark text-brand-green font-black uppercase text-sm tracking-widest shadow-2xl transition-transform hover:-translate-y-1">
+                        Inquire Technical Fleet
                     </button>
                 </div>
             </section>

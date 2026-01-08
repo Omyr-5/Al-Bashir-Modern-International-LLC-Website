@@ -1,23 +1,18 @@
 'use client';
 
 import { useLayoutEffect, useRef } from 'react';
-import { useTranslations } from 'next-intl';
 import {
   ArrowRight,
   Construction,
-  HardHat,
+  Settings,
   ShieldCheck,
   Users,
-  Building2,
-  Briefcase,
-  Target,
-  Trophy,
   Pickaxe,
-  Hammer,
-  Zap,
+  TrendingUp,
+  HardHat,
   Truck,
-  Wrench,
-  ArrowRightLeft
+  Box,
+  ChevronRight
 } from 'lucide-react';
 import Image from 'next/image';
 import gsap from 'gsap';
@@ -26,245 +21,242 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const t = useTranslations('Home');
   const root = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero Background Animation
-      gsap.fromTo('.hero-bg',
-        { scale: 1.2, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 2, ease: 'power4.out' }
-      );
-
       // Hero Content Animation
       gsap.from('.hero-content > *', {
-        y: 100,
+        x: -100,
         opacity: 0,
         stagger: 0.2,
-        duration: 1,
-        ease: 'back.out(1.7)',
-        delay: 0.5
+        duration: 1.2,
+        ease: 'power4.out',
+        delay: 0.2
       });
 
-      // Scroll Animations for sections
-      const sections = ['#who-we-are', '#what-we-do', '#stats', '#cta'];
-      sections.forEach(section => {
-        gsap.from(`${section} .animate-up`, {
+      // Section Scroll Animations
+      const sections = ['.about-section', '.services-section', '.stats-section', '.cta-section'];
+      sections.forEach((selector) => {
+        gsap.from(`${selector} .scroll-animate`, {
           scrollTrigger: {
-            trigger: section,
+            trigger: selector,
             start: 'top 80%',
             toggleActions: 'play none none reverse'
           },
-          y: 50,
+          y: 60,
           opacity: 0,
-          duration: 0.8,
-          stagger: 0.1,
+          stagger: 0.15,
+          duration: 1,
           ease: 'power3.out'
         });
       });
 
-      // Parallax for Hero
-      gsap.to('.hero-bg', {
+      // Special animation for the skewed "Performance" box
+      gsap.from('.skew-box', {
         scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
+          trigger: '.about-section',
+          start: 'top 70%'
         },
-        y: 200,
-        ease: 'none'
+        scaleX: 0,
+        transformOrigin: 'left',
+        duration: 1,
+        ease: 'expo.out'
       });
+
     }, root);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <main ref={root} className="flex flex-col min-h-screen font-sans">
-      {/* 1. HERO SECTION */}
-      <section className="hero-section relative h-[95vh] flex items-center justify-center overflow-hidden">
-        {/* Background Overlay */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-neutral-900/30 via-neutral-900/20 to-neutral-900/80 backdrop-blur-[1px]" />
+    <main ref={root} className="min-h-screen bg-[#F0F0F0] font-sans text-[#111111] overflow-hidden">
 
-        {/* Hero Background Image */}
-        <div className="hero-bg absolute inset-0 z-0 select-none">
+      {/* 1. HERO SECTION */}
+      <section className="relative h-[90vh] flex items-center bg-[#003900] overflow-hidden">
+        <div className="absolute inset-0 z-0">
           <Image
             src="/images/hero-bg.png"
-            alt="Modern Heavy Machinery"
+            alt="Industrial Machinery"
             fill
+            className="object-cover opacity-30 grayscale"
             priority
-            className="object-cover object-center"
-            quality={90}
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#003900] via-[#003900]/60 to-transparent" />
         </div>
 
-        <div className="container relative z-20 px-6 mx-auto text-center text-white hero-content">
-          <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase border border-white/20 rounded-full bg-white/5 backdrop-blur-md">
-            Pioneering The Future
-          </div>
-          <h1 className="text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter mb-8 leading-none drop-shadow-2xl">
-            BUILDING <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300">LEGACIES</span>
-          </h1>
-          <p className="max-w-2xl mx-auto text-lg md:text-2xl text-neutral-100 mb-12 leading-relaxed font-light drop-shadow-md">
-            Delivering innovative geotechnical solutions and engineering excellence for global infrastructure. We turn distinct challenges into sustainable realities.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <button className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition-all flex items-center gap-2 group shadow-[0_0_40px_-10px_rgba(37,99,235,0.5)] hover:shadow-[0_0_60px_-10px_rgba(37,99,235,0.7)] hover:scale-105 active:scale-95">
-              Explore Services
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="px-10 py-5 bg-white/5 hover:bg-white/10 text-white font-bold rounded-full backdrop-blur-md transition-all border border-white/20 hover:border-white/40 hover:scale-105 active:scale-95">
-              Our Projects
-            </button>
-          </div>
-        </div>
-      </section>
+        <div className="absolute bottom-0 left-0 w-full h-4 bg-[#FFCD11] z-20" />
 
-      {/* 2. WHO WE ARE SECTION */}
-      <section id="who-we-are" className="py-32 bg-white dark:bg-neutral-950 px-6">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div className="space-y-8 animate-up">
-              <div className="inline-block px-4 py-1.5 text-xs font-black uppercase tracking-widest text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-full">
-                Our Identity
-              </div>
-              <h2 className="text-4xl md:text-6xl font-black text-neutral-900 dark:text-white leading-[1.1]">
-                Decades of Engineering <br />
-                <span className="text-neutral-400">Precision & Innovation</span>
-              </h2>
-              <p className="text-xl text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
-                Founded with a vision to redefine geotechnical engineering, Al-Bashir Modern International has grown into a leading force. We combine deep technical expertise with state-of-the-art technology to provide solutions that are both robust and efficient.
-              </p>
-              <div className="grid grid-cols-2 gap-8 pt-4">
-                <div className="space-y-3">
-                  <div className="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-900/40 rounded-2xl text-blue-600 shadow-sm">
-                    <Target className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-xl dark:text-white">Precision</h4>
-                    <p className="text-neutral-500 font-light text-sm">Digital terrain analysis</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-900/40 rounded-2xl text-blue-600 shadow-sm">
-                    <ShieldCheck className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-xl dark:text-white">Reliability</h4>
-                    <p className="text-neutral-500 font-light text-sm">ISO Certified Safety</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="relative animate-up delay-200">
-              <div className="absolute -inset-10 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 rounded-[3rem] blur-3xl -z-10" />
-              <div className="aspect-[4/3] rounded-[2.5rem] bg-neutral-100 dark:bg-neutral-900 overflow-hidden shadow-2xl relative">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                <div className="absolute bottom-8 left-8 z-20">
-                  <div className="text-4xl font-bold text-white mb-2">25+</div>
-                  <div className="text-neutral-300 text-sm tracking-uppercase">Years of Experience</div>
-                </div>
-                {/* Using a placeholder for interior/team shot */}
-                <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1581094794329-cd13693db462?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-1000 hover:scale-105" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. WHAT WE DO SECTION */}
-      <section id="what-we-do" className="py-32 bg-neutral-50 dark:bg-neutral-900/30 px-6">
-        <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10 animate-up">
-            <div className="max-w-2xl">
-              <div className="inline-block px-4 py-1.5 text-xs font-black uppercase tracking-widest text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-full mb-6">
-                Expertise
-              </div>
-              <h2 className="text-4xl md:text-6xl font-black dark:text-white leading-tight">
-                Core Expertise & <br /> Specialized Services
-              </h2>
-            </div>
-            <p className="text-xl text-neutral-600 dark:text-neutral-400 font-light max-w-md pb-2">
-              Comprehensive geotechnical and engineering services tailored to meet the rigorous demands of modern construction.
+        <div className="container mx-auto px-6 relative z-10 hero-content">
+          <div className="max-w-4xl border-l-[12px] border-[#FFCD11] pl-8 md:pl-12">
+            <span className="inline-block py-1 px-3 mb-6 bg-[#FF4000] text-white text-[12px] font-black uppercase tracking-tighter rounded-none">
+              Safety First • Quality Always
+            </span>
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-8 leading-[0.85] tracking-tighter text-white uppercase italic">
+              Heavy <br />
+              <span className="text-[#FFCD11]">Duty.</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-2xl font-bold leading-tight uppercase">
+              Premier industrial solutions for infrastructure, mining, and civil engineering. We build the foundations of progress.
             </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button className="px-12 py-5 bg-[#FFCD11] hover:bg-[#E6B800] text-[#003900] font-black transition-all flex items-center justify-center gap-4 rounded-none shadow-2xl">
+                VIEW MACHINERY
+                <ArrowRight className="w-6 h-6" />
+              </button>
+              <button className="px-12 py-5 bg-transparent border-4 border-white text-white hover:bg-white hover:text-[#003900] font-black transition-all rounded-none">
+                OUR SERVICES
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. ABOUT SECTION */}
+      <section className="about-section py-32 bg-[#FFFFFF] px-6">
+        <div className="container mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            <div className="space-y-10">
+              <div className="flex items-center gap-4 scroll-animate">
+                <div className="w-16 h-2 bg-[#FFCD11]" />
+                <span className="text-sm font-black uppercase tracking-widest text-[#003900]">Our Identity</span>
+              </div>
+              <h2 className="text-5xl md:text-7xl font-black text-[#003900] leading-[0.9] uppercase italic tracking-tighter scroll-animate">
+                Decades of <br />
+                <span className="skew-box text-[#FFCD11] bg-[#003900] px-4 inline-block transform -skew-x-6">Performance</span>
+              </h2>
+              <p className="text-xl text-[#111111] font-medium leading-relaxed max-w-xl scroll-animate">
+                Al-Bashir Modern International is a leader in geotechnical and industrial services. Since 1998, we have provided the heavy-duty machinery and engineering precision required for the world's most demanding projects.
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-6 scroll-animate">
+                <div className="p-8 bg-[#C4EFCD] border-l-4 border-[#003900]">
+                  <Pickaxe className="w-8 h-8 text-[#003900] mb-4" />
+                  <h4 className="font-black text-xl text-[#003900] uppercase mb-2">Hard Rock Drilling</h4>
+                  <p className="text-sm text-[#003900]/70 font-bold uppercase tracking-tight">Advanced geotechnical exploration</p>
+                </div>
+                <div className="p-8 bg-[#C4EFCD] border-l-4 border-[#003900]">
+                  <TrendingUp className="w-8 h-8 text-[#003900] mb-4" />
+                  <h4 className="font-black text-xl text-[#003900] uppercase mb-2">Project Scale</h4>
+                  <p className="text-sm text-[#003900]/70 font-bold uppercase tracking-tight">Handling Tier 1 Infrastructure</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative scroll-animate">
+              <div className="absolute -top-10 -right-10 w-64 h-64 bg-[#FFCD11] -z-10" />
+              <div className="relative aspect-square bg-[#F0F0F0] p-4 border-t-8 border-[#FFCD11] shadow-2xl">
+                <div className="relative w-full h-full grayscale hover:grayscale-0 transition-all duration-700">
+                  <Image
+                    src="/images/about-team.png"
+                    alt="Industrial Site"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. SERVICES SECTION */}
+      <section className="services-section py-32 bg-[#F0F0F0] px-6">
+        <div className="container mx-auto">
+          <div className="flex flex-col mb-24 space-y-6 scroll-animate">
+            <h2 className="text-5xl md:text-8xl font-black text-[#003900] uppercase tracking-tighter leading-none italic">
+              Services & <br /> <span className="text-[#FFCD11]">Heavy Fleet</span>
+            </h2>
+            <div className="w-32 h-4 bg-[#FFCD11]" />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: "Drilling Service", icon: Pickaxe, desc: "Expert drilling for geotechnical investigation and resources." },
-              { title: "Civil Work", icon: Hammer, desc: "Comprehensive civil engineering for residential and commercial." },
-              { title: "Electrical Works", icon: Zap, desc: "Full-spectrum electrical installations and maintenance." },
-              { title: "Infrastructure", icon: Building2, desc: "Building roads, bridges, and utility networks." },
-              { title: "Equipment Rental", icon: Truck, desc: "High-quality heavy machinery and construction equipment." },
-              { title: "Maintenance", icon: Wrench, desc: "Reliable support ensuring facility longevity." },
-              { title: "Shifting Materials", icon: ArrowRightLeft, desc: "Efficient logistics and earthmoving services." }
+              { title: "Drilling fleet", icon: Pickaxe, desc: "High-torque rigs for severe terrain and deep boreholes." },
+              { title: "Civil Works", icon: Construction, desc: "Site clearing, excavation, and structural grading." },
+              { title: "Power Supply", icon: Box, desc: "Industrial generators and temporary power infrastructure." },
+              { title: "Fleet Hire", icon: Truck, desc: "Full inventory of CAT-certified heavy machinery." }
             ].map((service, index) => (
-              <div key={index} className="animate-up group p-10 bg-white dark:bg-neutral-900 rounded-[2rem] border border-neutral-100 dark:border-neutral-800 hover:border-blue-500/30 transition-all duration-300 shadow-sm hover:shadow-2xl hover:-translate-y-1">
-                <div className="w-14 h-14 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white flex items-center justify-center rounded-2xl mb-8 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                  <service.icon className="w-7 h-7" />
+              <div key={index} className="scroll-animate group relative bg-white border border-slate-200 p-12 hover:bg-[#003900] transition-all duration-500 overflow-hidden">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-[#FFCD11] transform translate-x-1/2 -translate-y-1/2 rotate-45 group-hover:bg-[#FF4000] transition-colors" />
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-[#FFCD11] flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+                    <service.icon className="w-8 h-8 text-[#003900]" />
+                  </div>
+                  <h3 className="text-3xl font-black text-[#003900] group-hover:text-white mb-6 uppercase leading-[0.8]">
+                    {service.title}
+                  </h3>
+                  <p className="text-[#111111]/60 font-bold group-hover:text-white/70 uppercase text-xs tracking-tight mb-8">
+                    {service.desc}
+                  </p>
+                  <button className="text-[#003900] group-hover:text-[#FFCD11] font-black text-[11px] tracking-widest uppercase flex items-center gap-2">
+                    SPECIFICATIONS
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
-                <h3 className="text-2xl font-bold mb-4 dark:text-white group-hover:text-blue-600 transition-colors">{service.title}</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
-                  {service.desc}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. STATS SECTION */}
+      <section className="stats-section bg-[#003900] py-20 px-6 border-y-8 border-[#FFCD11]">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center lg:text-left">
+            {[
+              { label: "Active Project Sites", value: "48", icon: HardHat },
+              { label: "Units in Fleet", value: "1.2k", icon: Truck },
+              { label: "LTI Safety Record", value: "100%", icon: ShieldCheck },
+              { label: "Regional Centers", value: "12", icon: Settings }
+            ].map((stat, i) => (
+              <div key={i} className="scroll-animate flex flex-col space-y-2">
+                <div className="text-[#FFCD11] text-6xl font-black italic tracking-tighter">{stat.value}</div>
+                <div className="text-white/60 text-[10px] font-black uppercase tracking-[0.3em]">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CTA SECTION */}
+      <section className="cta-section py-32 px-6">
+        <div className="container mx-auto">
+          <div className="relative bg-[#003900] p-12 md:p-24 overflow-hidden border-[15px] border-[#FFCD11] scroll-animate">
+            <div className="absolute top-0 right-0 h-full w-1/3 bg-[#FFCD11] opacity-10 skew-x-[-20deg] translate-x-20" />
+
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16">
+              <div className="text-white max-w-2xl">
+                <h2 className="text-5xl md:text-8xl font-black mb-8 leading-[0.85] tracking-tighter uppercase italic">
+                  Build Without <br /> <span className="text-[#FFCD11]">Limits.</span>
+                </h2>
+                <p className="text-xl text-white/70 font-bold uppercase tracking-tight">
+                  Consult with our machinery specialists today and secure the firepower your project demands.
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. EXPERIENCE / STATS SECTION */}
-      <section id="stats" className="py-32 bg-neutral-950 text-white relative overflow-hidden px-6">
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]" />
-
-        <div className="container mx-auto relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 border-t border-neutral-800 pt-16">
-            {[
-              { label: "Years of Excellence", value: "25+", icon: Trophy },
-              { label: "Completed Projects", value: "850+", icon: Building2 },
-              { label: "Global Clients", value: "120+", icon: Users },
-              { label: "Awards Won", value: "15+", icon: Target }
-            ].map((stat, index) => (
-              <div key={index} className="animate-up text-center group md:text-left">
-                <div className="inline-flex p-3 bg-neutral-900 rounded-2xl mb-6 group-hover:bg-blue-600/20 group-hover:text-blue-500 transition-colors">
-                  <stat.icon className="w-6 h-6 text-neutral-400" />
-                </div>
-                <div className="text-5xl md:text-7xl font-black mb-2 tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-500">{stat.value}</div>
-                <div className="text-neutral-500 font-bold uppercase text-xs tracking-widest">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. CALL TO ACTION */}
-      <section id="cta" className="py-32 bg-white dark:bg-neutral-950 overflow-hidden px-6">
-        <div className="container mx-auto animate-up">
-          <div className="relative group p-12 md:p-24 rounded-[3rem] bg-blue-600 overflow-hidden text-center shadow-2xl">
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 mix-blend-overlay" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-black/20 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4 mix-blend-multiply" />
-
-            <div className="relative z-10 flex flex-col items-center">
-              <h2 className="text-4xl md:text-7xl font-black mb-10 text-white leading-[0.9] tracking-tight">
-                READY TO BUILD <br /> THE FOUNDATION?
-              </h2>
-              <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-2xl font-light">
-                Contact our expert engineering team today for a comprehensive consultation.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
-                <button className="w-full sm:w-auto px-12 py-6 bg-white text-blue-600 hover:bg-neutral-100 font-bold rounded-full transition-all shadow-xl hover:scale-105 active:scale-95">
-                  Contact Our Team
+              <div className="flex flex-col sm:flex-row gap-6 w-full lg:w-auto">
+                <button className="px-16 py-6 bg-[#FFCD11] hover:bg-[#E6B800] text-[#003900] font-black uppercase tracking-widest text-sm rounded-none shadow-2xl transition-transform hover:-translate-y-1">
+                  GET QUOTE NOW
                 </button>
-                <button className="w-full sm:w-auto px-12 py-6 bg-blue-700/50 hover:bg-blue-800 text-white font-bold rounded-full transition-all border border-white/20 backdrop-blur-md">
-                  Request a Quote
+                <button className="px-16 py-6 border-4 border-white text-white hover:bg-white hover:text-[#003900] font-black uppercase tracking-widest text-sm rounded-none transition-all">
+                  LEARN MORE
                 </button>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <footer className="bg-[#003900] py-20 px-6 border-t-[20px] border-[#003700]">
+        <div className="container mx-auto text-center">
+          <div className="text-[#FFCD11] font-black text-4xl uppercase tracking-tighter mb-8 italic">
+            Al Bashir <span className="text-white">Modern.</span>
+          </div>
+          <div className="mt-10 text-white/20 text-[10px] uppercase font-bold tracking-[0.4em]">
+            © 1998–2024 Al-Bashir Modern International LLC. Built Heavy.
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
