@@ -1,8 +1,8 @@
-export default function About() {
-    return (
-        <main className="flex min-h-screen flex-col items-center justify-center p-24">
-            <h1 className="text-4xl font-bold mb-4">About Us</h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300">Learn more about our company and mission.</p>
-        </main>
-    );
+import { getTranslations } from 'next-intl/server';
+import AboutContent from '@/components/AboutContent';
+
+export default async function AboutPage() {
+    const t = await getTranslations('Navigation');
+    // We can pass translations or other server-side data to the client component here
+    return <AboutContent />;
 }

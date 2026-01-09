@@ -1,8 +1,12 @@
-export default function Jobs() {
+import { getTranslations } from 'next-intl/server';
+import JobsContent from '@/components/JobsContent';
+
+export default async function JobsPage() {
+    const t = await getTranslations('Navigation');
+
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center p-24">
-            <h1 className="text-4xl font-bold mb-4">Jobs</h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300">Check out our current job openings.</p>
+        <main>
+            <JobsContent />
         </main>
     );
 }
