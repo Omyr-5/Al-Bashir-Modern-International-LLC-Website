@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useLayoutEffect } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 import CustomArrow from '@/components/CustomArrow';
 
@@ -85,10 +86,10 @@ export default function Hero() {
                         Premier industrial solutions for infrastructure, mining, and civil engineering. We build the foundations of progress.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="px-12 py-5 bg-primary-sand hover:bg-accent-yellow text-brand-dark font-black transition-all flex items-center justify-center gap-4 rounded-none shadow-2xl">
+                        <Link href="/machinery" className="px-12 py-5 bg-primary-sand hover:bg-accent-yellow text-brand-dark font-black transition-all flex items-center justify-center gap-4 rounded-none shadow-2xl">
                             VIEW MACHINERY
                             <CustomArrow className="w-6 h-6" />
-                        </button>
+                        </Link>
                         <button className="px-12 py-5 bg-transparent border-4 border-white text-white hover:bg-white hover:text-[#003900] font-black transition-all rounded-none">
                             OUR SERVICES
                         </button>
